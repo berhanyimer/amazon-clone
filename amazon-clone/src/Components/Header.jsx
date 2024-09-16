@@ -1,77 +1,78 @@
 import React from "react";
+import classes from "./Header.module.css"; // Importing as a CSS module
 import { SlLocationPin } from "react-icons/sl";
 import { BsSearch } from "react-icons/bs";
 import { BiCart } from "react-icons/bi";
+import LowerHeader from "./LowerHeader";
 
-function Header() {
+const Header = () => {
   return (
     <>
-      <section>
-        <section>
-          <div>
-            {/* logo */}
-            <a href="/">
-              <img
-                src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
-                alt="amazon logo"
-              />
-            </a>
-            {/* delivery location */}
-            <span>{/* icon  */}</span>
-          </div>
-          <div>
-            <p>Delivered to</p>
-            <span>Ethiopia</span>
-          </div>
-          <div>
-            {/* search */}
-            <select name="" id="">
-              <option value="">All</option>
-            </select>
-            <input type="text" name="" id="" placeholder="search product" />
-            {/* icon  */}
-          </div>
-          {/* right side link  */}
-          <div>
-            <div>
-              <section>
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1024px-Flag_of_the_United_States.svg.png"
-                  alt=""
-                />
-                <option value="EN">EN</option>
-              </section>
+    <section className={classes.header_container}>
+      {/* Logo section */}
+      <div className={classes.logo_container}>
+        <a href="/">
+          <img
+            src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
+            alt="amazon logo"
+          />
+        </a>
+      </div>
 
-              {/* Right side links */}
-              <div>
-                {/* Three components */}
-                <a href="">
-                  <div>
-                    <span>Sign In</span>
-                  </div>
-                  <span>Account & Lists</span>
-                </a>
+      {/* Delivery section */}
+      <div className={classes.delivery}>
+        <span>
+          <SlLocationPin />
+        </span>
+        <div>
+          <p>Deliver to</p>
+          <span>Ethiopia</span>
+        </div>
+      </div>
 
-                <a href="">
-                  <div>
-                    <span>Returns</span>
-                  </div>
-                  <span>& Orders</span>
-                </a>
+      {/* Search section */}
+      <div className={classes.search}>
+        <select>
+          <option value="All">All</option>
+        </select>
+        <input type="text" placeholder="Search" size="25" />
+        <BsSearch size={25} />
+      </div>
 
-                {/* Cart */}
-                <a href="">
-                  <div>
-                    <span>Cart</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-      </section>
+      {/* Right side (Language, Account, Cart) */}
+      <div className={classes.order_container}>
+        <div className={classes.language}>
+          <a href="/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1024px-Flag_of_the_United_States.svg.png"
+              alt="US Flag"
+            />
+          </a>
+          <select>
+            <option value="EN">EN</option>
+          </select>
+        </div>
+
+        <a href="/">
+          <p>Sign In</p>
+          <span>Account & Lists</span>
+        </a>
+
+        <a href="/">
+          <p>Returns</p>
+          <span>& Orders</span>
+        </a>
+
+        {/* Cart section */}
+        <a href="/" className={classes.cart}>
+          <BiCart size={35} />
+          <span>0</span>
+        </a>
+      </div>
+    </section>
+    <LowerHeader/>
     </>
   );
-}
+};
 
 export default Header;
