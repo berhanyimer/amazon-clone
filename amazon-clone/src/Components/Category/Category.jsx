@@ -5,7 +5,7 @@ import CategoryCard from "./CategoryCard";
 function Category() {
   return (
     <>
-      <section>
+      <section className="classes.category_container">
         {categoryInfo.map((infos) => {
           <CategoryCard data={infos} />;
         })}
