@@ -1,18 +1,20 @@
-import React from "react";
-import LayOut from "../../Components/LayOut/LayOut";
-import { Carousel } from "react-responsive-carousel";
-import Category from "../../Components/Category/Category";
-import Product from "../../Components/Product/Product";
+import Carousel from "../../Componenets/Carousel/Carousel";
+import Category from "../../Componenets/Category/Category";
+
+import LayOut from "../../Componenets/Layout/LayOut";
+import Product from "../../Componenets/Product/product";
+
 function Landing() {
   return (
-    <>
-      <LayOut>
-        <Carousel />
-        <Category />
-        <Product />
-      </LayOut>
-    </>
+    <LayOut>
+     
+      <Carousel />
+      <Category />
+      <Product/>
+  
+
+    </LayOut>
   );
 }
 
-export default Landing;
+export default Landing
