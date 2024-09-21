@@ -4,7 +4,7 @@
   flex-wrap: wrap;
   gap: 2px; /* Space between products */
   justify-content: center;
-  border: 1px solid #ccc; /* For visual debugging */
+  border: 1px solid #d7cdcd; /* For visual debugging */
 }
 
 /* Card container */

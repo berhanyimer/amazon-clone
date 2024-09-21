@@ -44,7 +44,7 @@ function Cart() {
             <div className={classes.empty_cart_message}>
               <p>Your cart is currently Empty.</p>
               <p>
-                Please Browse our <Link to="/product/">products</Link> and start adding
+                Please Browse our <Link to="/product/">Products</Link> and start adding
                 items to your cart!
               </p>
             </div>
