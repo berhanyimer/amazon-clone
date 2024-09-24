@@ -41,10 +41,11 @@ function Cart() {
           <h3>Your Shopping Basket</h3>
           <hr />
           {basket?.length === 0 ? (
+          
             <div className={classes.empty_cart_message}>
               <p>Your cart is currently Empty.</p>
               <p>
-                Please Browse our <Link to="/product/">Products</Link> and start adding
+                Please Browse our <Link to="/">Products</Link> and start adding
                 items to your cart!
               </p>
             </div>
@@ -91,7 +92,7 @@ function Cart() {
               <input type="checkbox" />
               <small>This order contains a gift</small>
             </span>
-            <Link to="/payments">Continue to checkout</Link>
+            <Link to="/payment">Continue to checkout</Link>
           </div>
         )}
       </section>

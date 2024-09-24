@@ -8,7 +8,7 @@ import { DataContext } from "../DataProvider/DataProvider";
 import { useContext } from "react";
 
 function Header() {
-  const [{ basket }, dispatch] = useContext(DataContext);
+  const [{ basket, user }, dispatch] = useContext(DataContext); // Correctly get user from context
 
   const totalItem = basket?.reduce((amount, item) => {
     return amount + item.amount;
@@ -61,9 +61,13 @@ function Header() {
             {/* Sign In */}
             <Link to="/auth" className={classes.account}>
               <div>
-                <p>Sign In</p>
-                <span>Account & Lists</span>
+                {user ? (
+                  <p>Hello, {user?.email?.split("@")[0]}</p> // Use the user variable
+                ) : (
+                  <p>Hello, Sign In</p>
+                )}
               </div>
+              <span>Account & Lists</span>
             </Link>
 
             {/* Returns & Orders */}

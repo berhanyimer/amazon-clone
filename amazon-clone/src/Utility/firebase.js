@@ -1,9 +1,9 @@
-// Import the functions you need from the SDKs you need
+// Use Firebase v8 compatibility imports
 import firebase from "firebase/compat/app";
-import { getAuth } from "firebase/auth";
-import "firebase/compat/firestore";
-import "firebase/compat/auth";
-// Your web app's Firebase configuration
+import "firebase/compat/auth"; // Import auth from compatibility layer
+import "firebase/compat/firestore"; // Import firestore from compatibility layer
+
+// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCnUfjdYAih-X45KSZDrrhlqnQY7FNJ3-Y",
   authDomain: "clone-9cc69.firebaseapp.com",
@@ -14,6 +14,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = app.firestore();
+firebase.initializeApp(firebaseConfig);
+
+// Initialize Firebase Authentication and Firestore using v8 APIs
+const auth = firebase.auth(); // Use the v8-style API for auth
+const db = firebase.firestore(); // Use the v8-style API for Firestore
+
+export { auth, db };

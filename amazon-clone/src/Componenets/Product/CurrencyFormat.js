@@ -1,3 +1,4 @@
+import {CurrencyFormat} from "react-currency-format"
 <CurrencyFormat
   value={total}
   displayType={"text"}
@@ -6,3 +7,4 @@
   prefix={"$"}
   renderText={(value) => <p>{value}</p>}
 />;
+
