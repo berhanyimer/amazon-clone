@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import classes from "./SignUp.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../../Utility/firebase"; // Using v8 Firebase
 import { ClipLoader } from "react-spinners";
 import { DataContext } from "../../Componenets/DataProvider/DataProvider";
@@ -16,6 +16,7 @@ function Auth() {
   });
   const [{ user }, dispatch] = useContext(DataContext);
   const navigate = useNavigate();
+  const navStateData = useLocation(); // Correctly calling useLocation()
 
   const authHandler = async (e) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ function Auth() {
             user: userInfo.user,
           });
           setLoading({ ...Loading, signIn: false });
-          navigate("/");
+          navigate(navStateData?.state?.redirect || "/");
         })
         .catch((err) => {
           setError(err.message);
@@ -49,7 +50,7 @@ function Auth() {
             user: userInfo.user,
           });
           setLoading({ ...Loading, signUp: false });
-          navigate("/");
+          navigate(navStateData?.state?.redirect || "/");
         })
         .catch((err) => {
           setError(err.message);
@@ -68,6 +69,19 @@ function Auth() {
       </Link>
       <div className={classes.login_container}>
         <h1>Sign In</h1>
+        {navStateData?.state?.msg && ( // Added null/undefined check for msg
+          <small
+            style={{
+              padding: "5px",
+              textAlign: "center",
+              color: "red",
+              fontWeight: "bold",
+            }}
+          >
+            {navStateData.state.msg}
+          </small>
+        )}
+        {/* form  */}
         <form>
           <div>
             <label htmlFor="email">Email</label>

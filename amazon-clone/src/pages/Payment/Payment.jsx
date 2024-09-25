@@ -43,7 +43,7 @@ function Payment() {
     try {
       setProcessing(true);
 
-      // 1. Backend functions -> Contact to get the client secret
+      // step1. Backend functions -> Contact to get the client secret
       const response = await axiosInstance({
         method: "POST",
         url: `/payment/create?total=${totalInCents}`, // Send amount in cents
