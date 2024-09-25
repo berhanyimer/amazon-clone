@@ -4,58 +4,95 @@ import LayOut from "../../Componenets/Layout/LayOut";
 import { DataContext } from "../../Componenets/DataProvider/DataProvider";
 import ProductCard from "../../Componenets/Product/ProductCard";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-import CurrencyFormat from "react-currency-format";
+import { axiosInstance } from "../../Api/axios";
+import { db } from "../../Utility/firebase";
+import { useNavigate } from "react-router-dom";
 
 function Payment() {
   // Get user and basket from context
   const [{ user, basket }] = useContext(DataContext);
 
-  // Calculate total number of items in basket
-  const totalItem = basket?.reduce((amount, item) => {
-    return item.amount + amount;
-  }, 0);
+  // Calculate total number of items in the basket
+  const totalItem = basket?.reduce((amount, item) => item.amount + amount, 0);
 
-  // Calculate total price of items in basket
-  const total = basket.reduce((amount, item) => {
-    return item.price * item.amount + amount;
-  }, 0);
+  // Calculate total price of items in the basket (in dollars)
+  const total = basket.reduce(
+    (amount, item) => item.price * item.amount + amount,
+    0
+  );
 
   // Stripe setup and state for handling card errors
   const [cardError, setCardError] = useState(null);
+  const [processing, setProcessing] = useState(null);
+  const [clientSecret, setClientSecret] = useState(null); // Save client secret
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate;
 
   // Handle changes in the CardElement and set card error if any
   const handleChange = (e) => {
     e?.error?.message ? setCardError(e?.error?.message) : setCardError("");
   };
-  const handlePayment = (e) => {
+
+  const handlePayment = async (e) => {
     e.preventDefault();
-    //1.contact  backend || function to get the client secrete
 
+    // Convert total from dollars to cents (Stripe expects integer)
+    const totalInCents = Math.round(total * 100);
 
+    try {
+      setProcessing(true);
 
-    //2.react side confirmation using stripe
+      // 1. Backend functions -> Contact to get the client secret
+      const response = await axiosInstance({
+        method: "POST",
+        url: `/payment/create?total=${totalInCents}`, // Send amount in cents
+      });
 
+      // console.log(response.data);
 
+      const clientSecret = response.data?.clientSecret;
 
-    //3.after confirmation --> order firestore db save, clear basket
+      // 2. Client-side (React-side confirmation)
+      const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      });
 
-    
+      // console.log(paymentIntent);
+
+      // 3. After the confirmation --> Order Firestore database save and clear basket
+      await db
+        .collection("users")
+        .doc(user.uid)
+        .collection("orders")
+        .doc(paymentIntent.id)
+        .set({
+          basket: basket,
+          amount: paymentIntent.amount,
+          created: paymentIntent.created,
+        });
+
+      setProcessing(false);
+      // after payment navigate to order page
+      navigate("/Order", { state: { message: "You have placed new order" } });
+    } catch (error) {
+      console.log(error);
+      setProcessing(false);
+    }
   };
 
   return (
     <LayOut>
-      {/* Header with total items in checkout */}
       <div className={classes.payment_header}>Checkout ({totalItem})</div>
-
       <section className={classes.container_wrapper}>
         {/* User's delivery address */}
         <div className={classes.flex}>
           <h3>Delivery Address</h3>
           <div>{user ? user.email : "Guest User"}</div>
-          <div>123 West End Ave</div>
-          <div>Addis Ababa</div>
+          <div>123 React Lane</div>
+          <div>Chicago, IL</div>
         </div>
         <hr />
 
@@ -76,21 +113,15 @@ function Payment() {
           <div className={classes.payment_card_container}>
             <div className={classes.payment_details}>
               <form onSubmit={handlePayment}>
-                {/* Display card error if any */}
                 {cardError && (
                   <small style={{ color: "red" }}>{cardError}</small>
                 )}
-                {/* Stripe CardElement for card input */}
                 <CardElement onChange={handleChange} />
-
-                {/* Total order amount and Pay Now button */}
                 <div>
-                  <div>
-                    <span>
-                      Total Order | <CurrencyFormat amount={total} />
-                    </span>
-                  </div>
-                  <button>Pay Now</button>
+                  <div>Total Order: ${total.toFixed(2)}</div>
+                  <button type="submit">
+                    {processing ? "Processing..." : "Pay Now"}
+                  </button>
                 </div>
               </form>
             </div>
