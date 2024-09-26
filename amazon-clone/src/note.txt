@@ -12,3 +12,5 @@ npm install --save @stripe/react-stripe-js @stripe/stripe-js
 
 
 to use db turn on the firebase.com turn on thr service 
+firebase login /logout 
+npm run serve / from the function directory

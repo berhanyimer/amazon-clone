@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Landing from "./Pages/Landing/Landing";
+import Landing from "./pages/Landing/Landing";
 import Payment from "./pages/Payment/Payment";
-import Order from "./Pages/Orders/Order";
+
 import Cart from "./Pages/Cart/Cart";
 import Result from "./Pages/Result/Result";
 import ProductDetail from "./Pages/ProductDetail/ProductDetail";
@@ -11,6 +11,7 @@ import Auth from "./pages/Auth/Auth";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import ProtectedRoute from "./Componenets/ProtectedRoute/ProtectedRoute";
+import Order from "./pages/Orders/Order";
 const stripePromise = loadStripe(
   "pk_test_51Q2QrxBdrFGLfxGjBU5J0ths4RHm9RVvtcgFMgMQSMsVpuHis7xZil3tuWS67eEalY22WtDbXYvG3etXG6PGOFjY00I8qJAVJc"
 );
@@ -37,7 +38,7 @@ function Routing() {
         />
 
         <Route
-          path="/order"
+          path="/Order"
           element={
             <ProtectedRoute
               msg={"You must log in to see your orders"}

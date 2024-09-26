@@ -32,7 +32,7 @@ export const reducer = (state, action) => {
           basket: updatedBasket,
         };
       }
-
+    //decrease the quantity of the basket
     case Type.REMOVE_FROM_BASKET:
       const index = state.basket.findIndex((item) => item.id === action.id);
       let newBasket = [...state.basket];
@@ -54,6 +54,13 @@ export const reducer = (state, action) => {
         ...state,
         basket: newBasket,
       };
+    //clears the basket enirely
+    case Type.EMPTY_BASKET:
+      return {
+        ...state,
+        basket: [],
+      };
+    //Updates the current user information.
     case Type.SET_USER:
       return {
         ...state,

@@ -35,13 +35,14 @@ function Cart() {
 
   return (
     <LayOut>
+      {/* Shopping cart section */}
       <section className={classes.container}>
         <div className={classes.cart_container}>
           <h2>Welcome {user?.name || "Berhan!"}</h2>
           <h3>Your Shopping Basket</h3>
           <hr />
           {basket?.length === 0 ? (
-          
+            // Display a message if the cart is empty
             <div className={classes.empty_cart_message}>
               <p>Your cart is currently Empty.</p>
               <p>
@@ -50,6 +51,7 @@ function Cart() {
               </p>
             </div>
           ) : (
+            // Display the products in the basket
             basket?.map((item, i) => (
               <section key={i} className={classes.cart_product}>
                 <ProductCard
@@ -58,6 +60,7 @@ function Cart() {
                   flex={true}
                   renderAdd={false}
                 />
+                {/* Increment and Decrement buttons */}
                 <div className={classes.btn_container}>
                   <button
                     className={classes.btn}
@@ -77,6 +80,8 @@ function Cart() {
             ))
           )}
         </div>
+
+        {/* Total section */}
         {basket?.length !== 0 && (
           <div className={classes.total_container}>
             <div className={classes.total}>
@@ -92,6 +97,7 @@ function Cart() {
               <input type="checkbox" />
               <small>This order contains a gift</small>
             </span>
+            {/* Checkout button */}
             <Link to="/payment">Continue to checkout</Link>
           </div>
         )}

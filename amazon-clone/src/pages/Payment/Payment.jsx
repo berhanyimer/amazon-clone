@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useReducer, useState } from "react";
 import classes from "./Payment.module.css";
 import LayOut from "../../Componenets/Layout/LayOut";
 import { DataContext } from "../../Componenets/DataProvider/DataProvider";
@@ -7,10 +7,13 @@ import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { axiosInstance } from "../../Api/axios";
 import { db } from "../../Utility/firebase";
 import { useNavigate } from "react-router-dom";
+import { Type } from "../../Utility/action.types";
+
 
 function Payment() {
   // Get user and basket from context
-  const [{ user, basket }] = useContext(DataContext);
+  const [{ user, basket }, dispatch] = useContext(DataContext);
+  // console.log(user);
 
   // Calculate total number of items in the basket
   const totalItem = basket?.reduce((amount, item) => item.amount + amount, 0);
@@ -27,7 +30,7 @@ function Payment() {
   const [clientSecret, setClientSecret] = useState(null); // Save client secret
   const stripe = useStripe();
   const elements = useElements();
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   // Handle changes in the CardElement and set card error if any
   const handleChange = (e) => {
@@ -73,6 +76,10 @@ function Payment() {
           amount: paymentIntent.amount,
           created: paymentIntent.created,
         });
+      //! make the basket empty after payment completed
+      dispatch({
+        type: Type.EMPTY_BASKET,
+      });
 
       setProcessing(false);
       // after payment navigate to order page
@@ -101,7 +108,7 @@ function Payment() {
           <h3>Review Items and Delivery Address</h3>
           <div>
             {basket?.map((item) => (
-              <ProductCard product={item} flex={true} />
+              <ProductCard key={item} product={item} flex={true} />
             ))}
           </div>
         </div>
