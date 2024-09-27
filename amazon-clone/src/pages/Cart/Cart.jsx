@@ -38,13 +38,18 @@ function Cart() {
       {/* Shopping cart section */}
       <section className={classes.container}>
         <div className={classes.cart_container}>
-          <h2>Welcome {user?.name || "Berhan!"}</h2>
+          {/* <h2>Welcome {user?.name || " "}</h2> */}
           <h3>Your Shopping Basket</h3>
+
           <hr />
           {basket?.length === 0 ? (
             // Display a message if the cart is empty
             <div className={classes.empty_cart_message}>
-              <p>Your cart is currently Empty.</p>
+              <p>
+                {" "}
+                Hello {user?.email?.split("@")[0]}, your cart is currently
+                Empty.
+              </p>
               <p>
                 Please Browse our <Link to="/">Products</Link> and start adding
                 items to your cart!

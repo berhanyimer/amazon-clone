@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import LayOut from "../../Componenets/Layout/LayOut";
-// import classes from "./ProductDetail.module.css"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { productUrl } from "../../Api/endponts";
